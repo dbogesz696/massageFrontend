@@ -1,0 +1,114 @@
+﻿@page "/editgame"
+@page "/editgame/{Id:int}"
+@rendermode InteractiveServer
+
+@inject NavigationManager NavigationManager
+@inject idopontokClient idopontokClient
+@inject massagesClient massagesClient
+@inject ugyfelekClient ugyfelekClient
+
+@using GameStore.Frontend.Models
+@using GameStore.Frontend.Clients
+
+<PageTitle>@title</PageTitle> 
+<h3>@title</h3>
+
+@if (idopont is null || massages is null || ugyfelek is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{      
+    <EditForm Model="@idopont" OnValidSubmit="HandleSubmitAsync">
+        <DataAnnotationsValidator />    
+        <ValidationSummary />
+
+<div class="mb-3">
+    <label class="form-label">Massage:</label>
+    <InputSelect class="form-select" @bind-Value="idopont.Id_massage">
+        @foreach (var m in massages)
+        {
+            <option value="@m.Id">@m.MessageType</option>
+        }
+    </InputSelect>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Ügyfél:</label>
+    <InputSelect class="form-select" @bind-Value="idopont.Id_ugyfelek">
+        @foreach (var u in ugyfelek)
+        {
+            <option value="@u.Id">@u.Nev</option>
+        }
+    </InputSelect>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Időpont:</label>
+    <InputDate class="form-control" @bind-Value="idopont.MassageIdopont" />
+</div> 
+
+        <button type="submit" class="btn btn-primary">Mentés</button>
+        <a class="btn btn-secondary" href="/">Cancel</a>  
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    
+    public int? Id { get; set; }
+
+    public idopontokDetails idopont1 { get; set; }   
+    public ugyfelekDetails ugyfel { get; set; }
+    private idopontokSummary[]? idopontok;
+    private massagesSummary[]? massages;
+    private ugyfelekSummary[]? ugyfelek;
+    private string title = "";
+
+    protected override async Task OnInitializedAsync() 
+    {
+        massages = await massagesClient.GetmassagesAsync();
+        ugyfelek = await ugyfelekClient.GetugyfelekAsync();
+        idopontok = await idopontokClient.GetidopontokAsync();
+    }
+
+    private idopontokDetails? idopont;
+
+protected override async Task OnParametersSetAsync()
+{
+    if (idopont is not null)
+    {
+        return;
+    }
+    if (Id is not null)
+    {
+        idopont = await idopontokClient.GetIdopontAsync(Id.Value);
+        title = $"Edit";
+    }
+    else
+    {
+        idopont = new idopontokDetails
+        {
+            Id_massage = 0,
+            Id_ugyfelek = 0,
+            MassageIdopont = DateTime.Now
+        };
+
+        title = "Új időpont";
+    }
+}
+
+   private async Task HandleSubmitAsync()
+    {
+        if (Id is null)
+        {
+            await idopontokClient.AddidopontokAsync(idopont!);
+        }
+        else
+        {
+            await idopontokClient.UpdateidopontokAsync(idopont!);
+        }
+
+            NavigationManager.NavigateTo("/");
+        }
+}
