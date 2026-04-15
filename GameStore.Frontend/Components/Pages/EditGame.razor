@@ -35,12 +35,12 @@ else
 
 <div class="mb-3">
     <label class="form-label">Ügyfél:</label>
-    <InputSelect class="form-select" @bind-Value="idopont.Id_ugyfelek">
+    <InputNumber class="form-select" @bind-Value="idopont.Id_ugyfelek">
         @foreach (var u in ugyfelek)
         {
             <option value="@u.Id">@u.Nev</option>
         }
-    </InputSelect>
+    </InputNumber>
 </div>
 
 <div class="mb-3">
@@ -58,8 +58,7 @@ else
     
     public int? Id { get; set; }
 
-    public idopontokDetails idopont1 { get; set; }   
-    public ugyfelekDetails ugyfel { get; set; }
+    
     private idopontokSummary[]? idopontok;
     private massagesSummary[]? massages;
     private ugyfelekSummary[]? ugyfelek;

@@ -1,9 +1,10 @@
 ﻿@inject idopontokClient Client
 @inject NavigationManager NavigationManager
+@attribute [StreamRendering]
 @rendermode InteractiveServer
 
-<!--
-<div class="modal fade" id="@GetModalId(Game)" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="@GetModalId(Idopont)" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -16,28 +17,29 @@
       </div>
     </div>
   </div>
-</div>-->
+</div>
 
 @code {
-   /* [Parameter]
-    public idopontokSummary? Game { get; set; }
+   [Parameter]
+    public idopontokSummary? Idopont { get; set; }
 
     private string title = string.Empty;
-
+    
     protected override void OnParametersSet()
     {     
-            title = $"Delete {Game?.Name}?";
+            title = $"Delete {Idopont?.Id}?";
        
     }
     public static string GetModalId(idopontokSummary? idopont)
     {
         ArgumentNullException.ThrowIfNull(idopont);
-        return $"deleteModal-{idopont.id}";
+        return $"deleteModal-{idopont.Id}";
     }
 
     private async Task ConfirmAsync()
+    
     {
-        await Client.DeleteGameAsync(Game!.Id);
+        await Client.DeleteidopontokAsync(Idopont!.Id);
         NavigationManager.Refresh();
-    }*/
+    }
 }

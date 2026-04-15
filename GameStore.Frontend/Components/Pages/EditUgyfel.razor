@@ -1,0 +1,88 @@
+﻿@page "/editugyfel"
+@page "/editugyfel/{Id:int}"
+@rendermode InteractiveServer
+
+@inject NavigationManager NavigationManager
+@inject idopontokClient idopontokClient
+@inject massagesClient massagesClient
+@inject ugyfelekClient ugyfelekClient
+
+@using GameStore.Frontend.Models
+@using GameStore.Frontend.Clients
+
+<PageTitle>@title</PageTitle> 
+<h3>@title</h3>
+
+@if (ugyfel is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{      
+   <EditForm Model="@ugyfel" OnValidSubmit="HandleSubmitAsync">
+        <DataAnnotationsValidator />    
+        <ValidationSummary />
+
+    <div class="mb-3">
+        <label class="form-label">Név:</label>
+        <InputText class="form-select" @bind-Value="ugyfel.Nev">
+        
+        </InputText>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Telefon szám:</label>
+        <InputText class="form-select" @bind-Value="ugyfel.TelefonSzam">
+            
+        </InputText>
+    </div>
+        <button type="submit" class="btn btn-primary">Mentés</button>
+        <a class="btn btn-secondary" href="/">Cancel</a>  
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    
+    public int? Id { get; set; }
+
+    private ugyfelekDetails? ugyfel;
+    private string title = "";
+
+   	protected override async Task OnParametersSetAsync()
+    {
+        if (ugyfel is not null)
+        {
+            return;
+        }
+
+        if (Id is not null)
+        {
+            ugyfel = await ugyfelekClient.GetugyfelAsync(Id.Value);
+            title = $"Edit {ugyfel.Nev}";
+        }
+        else
+        {
+            ugyfel = new()
+            {
+                Nev = string.Empty,
+                TelefonSzam = string.Empty,
+                };          
+            title = "New Customer";
+        }
+    }
+   private async Task HandleSubmitAsync()
+    {
+        ArgumentNullException.ThrowIfNull(ugyfel);
+        if (Id is null)
+        {
+            await ugyfelekClient.AddugyfelAsync(ugyfel);
+        }
+        else
+        {
+            await ugyfelekClient.UpdateugyfelAsync(ugyfel);
+        }
+            NavigationManager.NavigateTo("/");
+    }
+
+}

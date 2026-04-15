@@ -28,12 +28,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[Z:/GameStore2/GameStore.Frontend/Components/Pages/DeleteGame.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xEZWxldGVHYW1lLnJhem9y
+[Z:/GameStore2/GameStore.Frontend/Components/Pages/DeleteIdopont.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xEZWxldGVJZG9wb250LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [Z:/GameStore2/GameStore.Frontend/Components/Pages/EditGame.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFZGl0R2FtZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[Z:/GameStore2/GameStore.Frontend/Components/Pages/EditUgyfel.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFZGl0VWd5ZmVsLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [Z:/GameStore2/GameStore.Frontend/Components/Pages/Error.razor]
